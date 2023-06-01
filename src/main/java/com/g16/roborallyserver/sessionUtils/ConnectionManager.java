@@ -1,4 +1,4 @@
-package com.g16.roborallyserver;
+package com.g16.roborallyserver.sessionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

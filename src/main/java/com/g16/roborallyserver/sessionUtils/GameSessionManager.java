@@ -1,8 +1,7 @@
-package com.g16.roborallyserver;
+package com.g16.roborallyserver.sessionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class GameSessionManager {

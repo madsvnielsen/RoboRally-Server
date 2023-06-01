@@ -1,4 +1,4 @@
-package com.g16.roborallyserver;
+package com.g16.roborallyserver.sessionUtils;
 
 public class GameSession {
 

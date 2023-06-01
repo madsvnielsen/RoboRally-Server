@@ -1,26 +1,24 @@
 package com.g16.roborallyserver;
 
+import com.g16.roborallyserver.sessionUtils.Connection;
+import com.g16.roborallyserver.sessionUtils.ConnectionManager;
+import com.g16.roborallyserver.sessionUtils.GameSession;
+import com.g16.roborallyserver.sessionUtils.GameSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.sql.DataSource;
 import java.util.UUID;
 
 
 @RequestMapping(value = "/game", produces="application/json")
 @RestController
-public class RoboRallyGame {
+public class Games {
 
     @Autowired
     private HttpServletRequest request;
@@ -43,8 +41,9 @@ public class RoboRallyGame {
         Connection conn = new Connection(userId, gs);
         ConnectionManager.addConnection(conn);
 
-        return new ResponseEntity<>("{\"userID\":\"" + userId + "\"}", HttpStatus.OK);
+        return new ResponseEntity<Connection>(conn, HttpStatus.OK);
     }
+
 
 
     @GetMapping(value = "/host/{gameId}")
