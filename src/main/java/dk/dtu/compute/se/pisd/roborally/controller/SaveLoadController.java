@@ -55,8 +55,16 @@ public class SaveLoadController {
 
     }
 
+    public static String serializeAndGetString(GameController gc) {
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting()
+                .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
+                .create();
 
+        return gson.toJson(gc);
 
+    }
 
     /**
      * Deserialize a JSON formatted file to a GameController object

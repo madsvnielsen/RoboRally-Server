@@ -1,6 +1,7 @@
 package com.g16.roborallyserver.sessionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 
 public class Connection {
@@ -12,6 +13,8 @@ public class Connection {
 
 
     private boolean isHost = false;
+
+    private Player playerRobot;
 
 
 
@@ -27,5 +30,14 @@ public class Connection {
 
     public void setHost(boolean host) {
         isHost = host;
+    }
+
+    public void setPlayerToken(Player playerRobot){
+        this.playerRobot = playerRobot;
+    }
+
+    @JsonIgnore
+    public Player getPlayerRobot() {
+        return playerRobot;
     }
 }

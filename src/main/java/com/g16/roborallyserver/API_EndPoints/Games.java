@@ -84,8 +84,26 @@ public class Games {
 
         GameSessionManager.startGameSession(gameId, mapName);
 
-
         //Starting game with map
         return new ResponseEntity<>("100" + mapName, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/update/{gameId}")
+    public ResponseEntity<String> gameUpdate(@PathVariable String gameId, @RequestParam String uuid) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        String jsonSerialized = GameSessionManager.getGameState(gameId);
+
+        //Starting game with map
+        return new ResponseEntity<>(jsonSerialized, HttpStatus.OK);
+    }
+
+
 }
