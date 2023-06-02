@@ -85,7 +85,7 @@ public class Games {
         GameSessionManager.startGameSession(gameId, mapName);
 
         //Starting game with map
-        return new ResponseEntity<>("100" + mapName, HttpStatus.OK);
+        return new ResponseEntity<>("100", HttpStatus.OK);
     }
 
     @GetMapping(value = "/update/{gameId}")
