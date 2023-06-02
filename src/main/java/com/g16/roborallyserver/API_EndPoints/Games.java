@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-
 import java.util.UUID;
 
 
@@ -75,19 +73,19 @@ public class Games {
         }
 
         if(!GameSessionManager.isAuthenticatedAsHost(gameId, uuid)){
-            return new ResponseEntity<>("You are not authenticated! OMG", HttpStatus.OK);
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
         }
 
         if(GameSessionManager.playerCount(gameId) < 2){
-            return new ResponseEntity<>("You need to be at least 2 players!", HttpStatus.OK);
+            //You need to be at least 2 players!
+            return new ResponseEntity<>("300", HttpStatus.OK);
         }
 
         GameSessionManager.startGameSession(gameId, mapName);
 
-        return new ResponseEntity<>("Starting game with map " + mapName, HttpStatus.OK);
+
+        //Starting game with map
+        return new ResponseEntity<>("100" + mapName, HttpStatus.OK);
     }
-
-
-
-
 }
