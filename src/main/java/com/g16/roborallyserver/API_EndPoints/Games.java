@@ -56,9 +56,6 @@ public class Games {
         String userId = UUID.randomUUID().toString();
         Connection conn = new Connection(userId, gs);
         ConnectionManager.addConnection(conn);
-
         return new ResponseEntity<>(conn, HttpStatus.OK);
     }
-
-
 }

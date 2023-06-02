@@ -39,8 +39,4 @@ public class RoboRallyServerApplication {
 
         SpringApplication.run(RoboRallyServerApplication.class, args);
     }
-
-
-
 }
-
