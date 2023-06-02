@@ -1,4 +1,4 @@
-package com.g16.roborallyserver;
+package com.g16.roborallyserver.API_EndPoints;
 
 import com.g16.roborallyserver.sessionUtils.Connection;
 import com.g16.roborallyserver.sessionUtils.ConnectionManager;
