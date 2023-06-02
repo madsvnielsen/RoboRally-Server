@@ -2,6 +2,7 @@ package com.g16.roborallyserver.sessionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class GameSessionManager {
@@ -21,4 +22,16 @@ public class GameSessionManager {
     public static void addGameSession(GameSession gs){
         gameSessions.add(gs);
     }
+
+    public static int playerCount(String gameID){
+        return (int) ConnectionManager.connectionList.stream().filter(player ->
+                Objects.equals(player.gameSession.gameID, gameID)).count();
+    }
+
+    public static boolean isAuthenticatedAsHost(String gameID, String uuid){
+        return ConnectionManager.connectionList.stream().anyMatch(conn ->
+                Objects.equals(conn.gameSession.gameID, gameID) && conn.isHost() && conn.userID.equals(uuid));
+    }
+
+
 }

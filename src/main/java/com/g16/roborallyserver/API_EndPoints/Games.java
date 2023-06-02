@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -55,10 +52,39 @@ public class Games {
         GameSessionManager.addGameSession(gs);
         String userId = UUID.randomUUID().toString();
         Connection conn = new Connection(userId, gs);
+        conn.setHost(true);
         ConnectionManager.addConnection(conn);
+
 
         return new ResponseEntity<>(conn, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/playerCount/{gameId}")
+    public ResponseEntity<?> playerCount(@PathVariable String gameId) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(GameSessionManager.playerCount(gameId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/start/{gameId}")
+    public ResponseEntity<String> startGame(@PathVariable String gameId, @RequestParam String mapName, @RequestParam String uuid) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticatedAsHost(gameId, uuid)){
+            return new ResponseEntity<>("You are not authenticated! OMG", HttpStatus.OK);
+        }
+
+        if(GameSessionManager.playerCount(gameId) < 2){
+            return new ResponseEntity<>("You need to be at least 2 players!", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Starting game with map " + mapName, HttpStatus.OK);
+    }
+    
+    
 
 
 }
