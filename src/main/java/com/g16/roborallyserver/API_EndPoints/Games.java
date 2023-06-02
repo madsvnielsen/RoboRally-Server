@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+
 import java.util.UUID;
 
 
@@ -79,6 +81,8 @@ public class Games {
         if(GameSessionManager.playerCount(gameId) < 2){
             return new ResponseEntity<>("You need to be at least 2 players!", HttpStatus.OK);
         }
+
+        GameSessionManager.startGameSession(gameId, mapName);
 
         return new ResponseEntity<>("Starting game with map " + mapName, HttpStatus.OK);
     }
