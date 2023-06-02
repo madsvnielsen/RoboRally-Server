@@ -55,7 +55,6 @@ public class Games {
         conn.setHost(true);
         ConnectionManager.addConnection(conn);
 
-
         return new ResponseEntity<>(conn, HttpStatus.OK);
     }
 
@@ -83,8 +82,8 @@ public class Games {
 
         return new ResponseEntity<>("Starting game with map " + mapName, HttpStatus.OK);
     }
-    
-    
+
+
 
 
 }

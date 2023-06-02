@@ -1,5 +1,8 @@
 package com.g16.roborallyserver.sessionUtils;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +20,10 @@ public class GameSessionManager {
         Optional<GameSession> queryResponse = gameSessions.stream().filter(gs -> gs.gameID.equals(gameID)).findFirst();
         return queryResponse.orElse(null);
 
+    }
+
+    public List<GameSession> getGameSessions(){
+        return gameSessions;
     }
 
     public static void addGameSession(GameSession gs){
