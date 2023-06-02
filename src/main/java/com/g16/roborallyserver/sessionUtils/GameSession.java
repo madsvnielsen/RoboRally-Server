@@ -6,6 +6,10 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 public class GameSession {
 
+    public String getGameID() {
+        return gameID;
+    }
+
     public String gameID;
 
 
