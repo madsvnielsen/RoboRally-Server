@@ -39,6 +39,11 @@ public class GameSessionManager {
 
         return ConnectionManager.connectionList.stream().filter(conn -> Objects.equals(conn.gameSession.gameID, gameID)).toList();
     }
+    public static Connection getPlayerConnection(String gameID, String uuid){
+        Optional<Connection> connection = ConnectionManager.connectionList.stream().filter(conn -> Objects.equals(conn.gameSession.gameID, gameID)
+        && Objects.equals(conn.userID, uuid)).findFirst();
+        return connection.orElse(null);
+    }
 
     public static int playerCount(String gameID){
         return (int) ConnectionManager.connectionList.stream().filter(player ->

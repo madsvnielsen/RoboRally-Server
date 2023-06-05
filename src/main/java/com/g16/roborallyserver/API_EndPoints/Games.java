@@ -105,5 +105,27 @@ public class Games {
         return new ResponseEntity<>(jsonSerialized, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/playertoken/{gameId}")
+    public ResponseEntity<String> playerToken(@PathVariable String gameId, @RequestParam String uuid) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
+
+        if(conn == null){
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        //Get player token
+
+        return new ResponseEntity<>(conn.getPlayerRobot().getName(), HttpStatus.OK);
+    }
+
 
 }
