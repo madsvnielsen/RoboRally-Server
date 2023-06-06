@@ -178,7 +178,7 @@ public class Games {
         return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);
     }
 
-    @PostMapping (value= "/getCards/{gameID}")
+    @GetMapping (value= "/getCards/{gameID}")
     public  ResponseEntity<?> getProgramedCards(@PathVariable String gameId, @RequestParam String uuid) {
         if (!GameSessionManager.gameExists(gameId)) {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
