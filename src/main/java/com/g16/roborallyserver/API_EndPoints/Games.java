@@ -149,7 +149,7 @@ public class Games {
     }
 
     @PostMapping(value = "/program/{gameId}")
-    public ResponseEntity<?> submitProgram(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody CommandCardField[] program) {
+    public ResponseEntity<?> submitProgram(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String[] program) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -167,7 +167,11 @@ public class Games {
         }
 
         conn.setDoneProgramming(true);
-        conn.setProgram(program);
+        for (String str:
+             program) {
+            System.out.println(str);
+        }
+        //conn.setProgram();
 
 
 
