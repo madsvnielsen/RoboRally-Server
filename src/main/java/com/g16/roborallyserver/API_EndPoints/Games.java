@@ -194,21 +194,24 @@ public class Games {
         List<Connection> players = GameSessionManager.getPlayerConnections(gameId);
         Connection connection;
         List<String> cards = new ArrayList<>();
-        int increment = 0;
-        for (int j = 0; j < players.size(); j++) {
-            connection = players.get(j);
+        if(players.size() != players.stream().filter(Connection::isDoneProgramming).count()){
+            return new ResponseEntity<>(new String[]{"500"}, HttpStatus.OK);
+        }
+        //int increment = 0;
+        for (Connection player : players) {
+            connection = player;
+            /*
             if (connection.isDoneProgramming()) {
                 increment++;
             }
-            if (increment == players.size()) {
-                for (int i = 0; i < 5; i++) {
-                    if (connection.getProgram() != null)
-                        cards.add(connection.getProgram()[i]);
-                    else
-                        cards.add("null");
-                }
-            } else
-                return new ResponseEntity<>(new String[]{"500"}, HttpStatus.OK);
+
+             */
+            for (int i = 0; i < 5; i++) {
+                if (connection.getProgram() != null)
+                    cards.add(connection.getProgram()[i]);
+                else
+                    cards.add("null");
+            }
         }
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
