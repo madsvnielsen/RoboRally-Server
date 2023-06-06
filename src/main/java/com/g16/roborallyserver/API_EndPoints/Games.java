@@ -196,13 +196,17 @@ public class Games {
         List<Connection> players = GameSessionManager.getPlayerConnections(gameId);
         Connection connection;
         List<CommandCard> cards=null;
-
+        int increment =0;
         for (int j=0;j<Integer.parseInt(playerCount(gameId).toString());j++) {
             connection=players.get(j);
+            if (connection.isDoneProgramming()){
+                increment++;
+            }
+            if (increment==Integer.parseInt(playerCount(gameId).toString())){
             for (int i=0;i<5;i++) {
                 cards.add(connection.getPlayerRobot().getProgramField(i).getCard());
             }
-        }
+        }}
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 }
