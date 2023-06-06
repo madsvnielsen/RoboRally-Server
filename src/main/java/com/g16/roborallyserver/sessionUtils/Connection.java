@@ -34,9 +34,23 @@ public class Connection {
 
 
 
+    private boolean hasExecutedCards = false;
+
+
+
     public Connection(String userID, GameSession gameSession){
         this.userID = userID;
         this.gameSession = gameSession;
+    }
+
+
+    @JsonIgnore
+    public boolean isHasExecutedCards() {
+        return hasExecutedCards;
+    }
+
+    public void setHasExecutedCards(boolean hasExecutedCards) {
+        this.hasExecutedCards = hasExecutedCards;
     }
 
     @JsonIgnore

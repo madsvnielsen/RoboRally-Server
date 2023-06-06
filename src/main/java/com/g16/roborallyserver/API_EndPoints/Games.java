@@ -187,10 +187,12 @@ public class Games {
         }
         Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
 
+
         if (conn == null) {
             //You are not authenticated in this game!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
+        conn.setHasExecutedCards(true);
         List<Connection> players = GameSessionManager.getPlayerConnections(gameId);
         Connection connection;
         List<String> cards = new ArrayList<>();
@@ -204,7 +206,6 @@ public class Games {
             if (connection.isDoneProgramming()) {
                 increment++;
             }
-
              */
             for (int i = 0; i < 5; i++) {
                 if (connection.getProgram() != null)
@@ -212,6 +213,12 @@ public class Games {
                 else
                     cards.add("null");
             }
+        }
+        if(players.stream().filter(Connection::isHasExecutedCards).count() == players.size()){
+            players.forEach(p -> {
+                p.setHasExecutedCards(false);
+                p.setDoneProgramming(false);
+            });
         }
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
