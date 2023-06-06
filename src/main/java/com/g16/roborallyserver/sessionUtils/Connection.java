@@ -1,6 +1,7 @@
 package com.g16.roborallyserver.sessionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 
@@ -15,6 +16,28 @@ public class Connection {
     private boolean isHost = false;
 
     private Player playerRobot;
+
+    @JsonIgnore
+    public CommandCardField[] getProgram() {
+        return program;
+    }
+
+    public void setProgram(CommandCardField[] program) {
+        this.program = program;
+    }
+
+    private CommandCardField[] program;
+
+    @JsonIgnore
+    public boolean isDoneProgramming() {
+        return isProgramming;
+    }
+
+    public void setDoneProgramming(boolean programming) {
+        isProgramming = programming;
+    }
+
+    private boolean isProgramming = false;
 
 
 

@@ -4,6 +4,7 @@ import com.g16.roborallyserver.sessionUtils.Connection;
 import com.g16.roborallyserver.sessionUtils.ConnectionManager;
 import com.g16.roborallyserver.sessionUtils.GameSession;
 import com.g16.roborallyserver.sessionUtils.GameSessionManager;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,7 @@ public class Games {
 
         GameSession gs = GameSessionManager.getGame(gameId);
         Connection conn = new Connection(userId, gs);
+
         ConnectionManager.addConnection(conn);
 
         return new ResponseEntity<Connection>(conn, HttpStatus.OK);
@@ -84,6 +86,8 @@ public class Games {
 
         GameSessionManager.startGameSession(gameId, mapName);
 
+
+
         //Starting game with map
         return new ResponseEntity<>("100", HttpStatus.OK);
     }
@@ -128,7 +132,21 @@ public class Games {
     }
 
     @GetMapping(value = "/isstarted/{gameId}")
-    public ResponseEntity<?> isStarted(@PathVariable String gameId, @RequestParam String uuid) {
+    public ResponseEntity<?> isStarted(@PathVariable String gameId) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+
+        GameSession session = GameSessionManager.getGameSession(gameId);
+
+
+
+        return new ResponseEntity<>(session.isStarted(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/program/{gameId}")
+    public ResponseEntity<?> submitProgram(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody CommandCardField[] program) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -144,6 +162,10 @@ public class Games {
             //You are not authenticated in this game!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
+
+        conn.setDoneProgramming(true);
+        conn.setProgram(program);
+
 
 
         return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);

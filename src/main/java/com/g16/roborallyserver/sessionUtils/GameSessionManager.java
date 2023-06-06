@@ -4,9 +4,6 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveLoadController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 
@@ -93,6 +90,19 @@ public class GameSessionManager {
 
         targetSession.getController().startProgrammingPhase();
 
+    }
+
+
+    public static void resetIsProgrammingForAllPlayers(GameController sourceController){
+        Optional<GameSession> targetSesh = gameSessions.stream().filter(gs -> Objects.equals(gs.getController(), sourceController)).findFirst();;
+        if(targetSesh.isEmpty()){
+            return;
+        }
+
+        List<Connection> connections = getPlayerConnections(targetSesh.get().gameID);
+        for (Connection connection : connections){
+            connection.setDoneProgramming(false);
+        }
     }
 
 

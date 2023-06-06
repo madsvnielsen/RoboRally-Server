@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.g16.roborallyserver.sessionUtils.GameSessionManager;
 import com.google.gson.annotations.Expose;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.paint.Color;
@@ -240,6 +241,7 @@ public class GameController {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
+        GameSessionManager.resetIsProgrammingForAllPlayers(this);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
