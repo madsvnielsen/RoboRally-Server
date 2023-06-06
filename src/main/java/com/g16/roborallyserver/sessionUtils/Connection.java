@@ -17,16 +17,9 @@ public class Connection {
 
     private Player playerRobot;
 
-    @JsonIgnore
-    public CommandCardField[] getProgram() {
-        return program;
-    }
 
-    public void setProgram(CommandCardField[] program) {
-        this.program = program;
-    }
 
-    private CommandCardField[] program;
+    private String[] program;
 
     @JsonIgnore
     public boolean isDoneProgramming() {
@@ -64,5 +57,13 @@ public class Connection {
         return playerRobot;
     }
 
+    @JsonIgnore
+    public String[] getProgram() {
+        return program;
+    }
+
+    public void setProgram(String[] program) {
+        this.program = program;
+    }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -167,19 +168,16 @@ public class Games {
         }
 
         conn.setDoneProgramming(true);
-        for (String str:
-             program) {
+        for (String str: program) {
             System.out.println(str);
         }
-        //conn.setProgram();
-
-
+        conn.setProgram(program);
 
         return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);
     }
 
-    @GetMapping (value= "/getCards/{gameID}")
-    public  ResponseEntity<?> getProgramedCards(@PathVariable String gameId, @RequestParam String uuid) {
+    @GetMapping (value= "/getCards/{gameId}")
+    public ResponseEntity<?> getProgramedCards(@PathVariable String gameId, @RequestParam String uuid) {
         if (!GameSessionManager.gameExists(gameId)) {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -195,18 +193,23 @@ public class Games {
         }
         List<Connection> players = GameSessionManager.getPlayerConnections(gameId);
         Connection connection;
-        List<CommandCard> cards=null;
-        int increment =0;
-        for (int j=0;j<Integer.parseInt(playerCount(gameId).toString());j++) {
-            connection=players.get(j);
-            if (connection.isDoneProgramming()){
+        List<String> cards = new ArrayList<>();
+        int increment = 0;
+        for (int j = 0; j < players.size(); j++) {
+            connection = players.get(j);
+            if (connection.isDoneProgramming()) {
                 increment++;
             }
-            if (increment==Integer.parseInt(playerCount(gameId).toString())){
-            for (int i=0;i<5;i++) {
-                cards.add(connection.getPlayerRobot().getProgramField(i).getCard());
-            }
-        }}
+            if (increment == players.size()) {
+                for (int i = 0; i < 5; i++) {
+                    if (connection.getProgram() != null)
+                        cards.add(connection.getProgram()[i]);
+                    else
+                        cards.add("null");
+                }
+            } else
+                return new ResponseEntity<>(new String[]{"500"}, HttpStatus.OK);
+        }
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 }
