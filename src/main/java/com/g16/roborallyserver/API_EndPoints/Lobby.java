@@ -18,18 +18,18 @@ import java.util.Optional;
 @RequestMapping(value = "/lobby", produces="application/json")
 @RestController
 public class Lobby {
-    GameSessionManager gsm = new GameSessionManager();
+
 
 
     @GetMapping(value = "")
     public ResponseEntity<?> lobbies() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
-        List<GameSession> gameSessions = gsm.getGameSessions();
+        List<GameSession> gameSessions = GameSessionManager.getGameSessions();
         Map<String, Integer> lobbyPlayerCounts = new HashMap<>();
 
         for (GameSession session : gameSessions) {
-            int playerCount = gsm.playerCount(session.getGameID());
+            int playerCount = GameSessionManager.playerCount(session.getGameID());
             lobbyPlayerCounts.put(session.getGameID(), playerCount);
         }
 
@@ -42,7 +42,7 @@ public class Lobby {
 
     @GetMapping(value = "/{gameID}")
     public GameSession lobby(String gameID){
-        Optional<GameSession> queryResponse = gsm.getGameSessions().stream().filter(gs -> gs.gameID.equals(gameID)).findFirst();
+        Optional<GameSession> queryResponse = GameSessionManager.getGameSessions().stream().filter(gs -> gs.gameID.equals(gameID)).findFirst();
         return queryResponse.orElse(null);
     }
 }

@@ -27,7 +27,7 @@ public class GameSessionManager {
 
     }
 
-    public List<GameSession> getGameSessions(){
+    public static List<GameSession> getGameSessions(){
         return gameSessions;
     }
 
