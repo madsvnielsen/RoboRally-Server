@@ -4,13 +4,16 @@ import com.g16.roborallyserver.sessionUtils.Connection;
 import com.g16.roborallyserver.sessionUtils.ConnectionManager;
 import com.g16.roborallyserver.sessionUtils.GameSession;
 import com.g16.roborallyserver.sessionUtils.GameSessionManager;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -171,5 +174,31 @@ public class Games {
         return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);
     }
 
+    @PostMapping (value= "/getCards/{gameID}")
+    public  ResponseEntity<?> getProgramedCards(@PathVariable String gameId, @RequestParam String uuid) {
+        if (!GameSessionManager.gameExists(gameId)) {
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+        if (!GameSessionManager.isAuthenticated(gameId, uuid)) {
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
 
+        if (conn == null) {
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        List<Connection> players = GameSessionManager.getPlayerConnections(gameId);
+        Connection connection;
+        List<CommandCard> cards=null;
+
+        for (int j=0;j<Integer.parseInt(playerCount(gameId).toString());j++) {
+            connection=players.get(j);
+            for (int i=0;i<5;i++) {
+                cards.add(connection.getPlayerRobot().getProgramField(i).getCard());
+            }
+        }
+        return new ResponseEntity<>(cards, HttpStatus.OK);
+    }
 }

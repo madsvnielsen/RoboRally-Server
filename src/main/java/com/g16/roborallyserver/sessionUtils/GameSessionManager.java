@@ -21,7 +21,6 @@ public class GameSessionManager {
     public static GameSession getGame(String gameID){
         Optional<GameSession> queryResponse = gameSessions.stream().filter(gs -> gs.gameID.equals(gameID)).findFirst();
         return queryResponse.orElse(null);
-
     }
 
     public static List<GameSession> getGameSessions(){
@@ -67,29 +66,22 @@ public class GameSessionManager {
     }
 
     public static void startGameSession(String gameId, String map){
-
         String mapPath = "src/main/java/dk/dtu/compute/se/pisd/roborally/Maps/"+map;
         GameSession targetSession = getGameSession(gameId);
         targetSession.setIsStarted(true);
         Board board = new Board(13,10, mapPath);
         targetSession.setController(new GameController(board));
         SpaceReader spaceReader = new SpaceReader(mapPath);
-
-
         int numberOfPlayers = playerCount(gameId);
-
         ProgrammingDeckInit programmingDeckInit = new ProgrammingDeckInit();
         List<Connection> playerConnections = getPlayerConnections(gameId);
-
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player(board, PLAYER_COLORS.get(i),"Player " + (i + 1),i+1, programmingDeckInit.init());
             board.addPlayer(player);
             spaceReader.initPlayers(board,player, i);
             playerConnections.get(i).setPlayerToken(player);
         }
-
         targetSession.getController().startProgrammingPhase();
-
     }
 
 
@@ -104,6 +96,4 @@ public class GameSessionManager {
             connection.setDoneProgramming(false);
         }
     }
-
-
 }
