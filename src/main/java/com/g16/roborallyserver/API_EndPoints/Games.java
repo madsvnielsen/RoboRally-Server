@@ -127,5 +127,27 @@ public class Games {
         return new ResponseEntity<>(conn.getPlayerRobot().getName(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/isstarted/{gameId}")
+    public ResponseEntity<?> isStarted(@PathVariable String gameId, @RequestParam String uuid) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
+
+        if(conn == null){
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+
+        return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);
+    }
+
 
 }
