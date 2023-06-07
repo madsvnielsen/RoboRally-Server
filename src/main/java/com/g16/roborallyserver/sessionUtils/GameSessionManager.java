@@ -84,6 +84,20 @@ public class GameSessionManager {
         targetSession.getController().startProgrammingPhase();
     }
 
+    public static void startGameSessionFromSave(String gameId, GameController gc){
+        GameSession targetSession = getGameSession(gameId);
+        targetSession.setIsStarted(true);
+        Board board = new Board(13,10, gc.board, PLAYER_COLORS );
+        List<Connection> playerConnections = getPlayerConnections(gameId);
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+
+            playerConnections.get(i).setPlayerToken(board.getPlayer(i));
+        }
+        targetSession.setController(new GameController(board));
+        targetSession.getController().startProgrammingPhase();
+    }
+
 
     public static void resetIsProgrammingForAllPlayers(GameController sourceController){
         Optional<GameSession> targetSesh = gameSessions.stream().filter(gs -> Objects.equals(gs.getController(), sourceController)).findFirst();;

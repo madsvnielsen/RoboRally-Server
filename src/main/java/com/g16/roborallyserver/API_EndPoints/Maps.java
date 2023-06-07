@@ -26,9 +26,11 @@ public class Maps {
     @Autowired
     private HttpServletRequest request;
 
+    private final String mapLocation ="src/main/java/dk/dtu/compute/se/pisd/roborally/Maps";
+
     @GetMapping(value = "/")
     public ResponseEntity<?> getMapList() {
-        File mapDirectory = new File("src/main/java/dk/dtu/compute/se/pisd/roborally/Maps");
+        File mapDirectory = new File(mapLocation);
         File[] maps =  mapDirectory.listFiles();
         List<String> mapNames = new ArrayList<String>();
         if(maps ==  null){
