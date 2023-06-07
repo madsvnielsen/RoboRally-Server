@@ -12,6 +12,8 @@ public class GameSession {
 
     public String gameID;
 
+    public String command;
+
 
     private boolean isStarted = false;
 

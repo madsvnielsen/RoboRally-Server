@@ -176,6 +176,47 @@ public class Games {
         return new ResponseEntity<>(conn.gameSession.isStarted(), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/interactive/{gameId}")
+    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String comm) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
+
+        if(conn == null){
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        conn.gameSession.command = comm;
+        return new ResponseEntity<>("100", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/interactive/{gameId}")
+    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid) {
+        if(!GameSessionManager.gameExists(gameId)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
+
+        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        Connection conn = GameSessionManager.getPlayerConnection(gameId, uuid);
+
+        if(conn == null){
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(conn.gameSession.command, HttpStatus.OK);
+    }
+
     @GetMapping (value= "/getCards/{gameId}")
     public ResponseEntity<?> getProgramedCards(@PathVariable String gameId, @RequestParam String uuid) {
         if (!GameSessionManager.gameExists(gameId)) {
