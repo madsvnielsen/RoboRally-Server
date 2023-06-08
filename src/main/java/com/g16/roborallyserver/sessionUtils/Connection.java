@@ -17,10 +17,17 @@ public class Connection {
 
     private Player playerRobot;
 
-
-
     private String[] program;
+    //
+    public String[] getCardHand() {
+        return cardHand;
+    }
 
+    public void setCardHand(String[] cardHand) {
+        this.cardHand = cardHand;
+    }
+
+    private String[] cardHand;
     @JsonIgnore
     public boolean isDoneProgramming() {
         return isProgramming;

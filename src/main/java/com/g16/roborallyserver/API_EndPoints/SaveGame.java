@@ -84,7 +84,28 @@ public class SaveGame {
             return new ResponseEntity<>("500", HttpStatus.OK);
         }
     }
+    @PostMapping(value = "/saveHand/{gameID}")
+    public ResponseEntity<String> saveHand(@PathVariable String gameID,@RequestParam String uuid, @RequestBody String[] cardHand, @RequestBody String[] program)
+    {
+        if(!GameSessionManager.gameExists(gameID)){
+            return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
+        }
 
+        if(!GameSessionManager.isAuthenticated(gameID, uuid)){
+            //You are not authenticated!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+
+        Connection conn = GameSessionManager.getPlayerConnection(gameID, uuid);
+
+        if(conn == null){
+            //You are not authenticated in this game!
+            return new ResponseEntity<>("200", HttpStatus.OK);
+        }
+        conn.setCardHand(cardHand);
+        conn.setProgram(program);
+        return  new ResponseEntity<>("100", HttpStatus.OK);
+    }
 
 
 
