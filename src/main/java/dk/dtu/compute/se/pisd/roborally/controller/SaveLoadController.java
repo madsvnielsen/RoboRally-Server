@@ -40,22 +40,14 @@ public class SaveLoadController {
      */
 
     public static void serializeAndSave(GameController gc, String filePath) throws IOException {
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setPrettyPrinting()
-                .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
-                .create();
-
-        String jso = gson.toJson(gc);
-
         BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-        writer.write(jso);
+        writer.write(serializeGameController(gc));
         writer.close();
         System.out.println("Saved game to " + filePath);
 
     }
 
-    public static String serializeAndGetString(GameController gc) {
+    public static String serializeGameController(GameController gc){
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
@@ -63,8 +55,12 @@ public class SaveLoadController {
                 .create();
 
         return gson.toJson(gc);
-
     }
+
+
+
+
+
 
     /**
      * Deserialize a JSON formatted file to a GameController object
@@ -93,6 +89,9 @@ public class SaveLoadController {
             System.out.println("Couldn't load file.. ");
         }
         return null;
+    }
 
+    public static GameController deserializeString(String str){
+        return gson.fromJson(str, GameController.class);
     }
 }

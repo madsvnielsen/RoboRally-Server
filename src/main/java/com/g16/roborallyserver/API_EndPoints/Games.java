@@ -281,6 +281,7 @@ public class Games {
             players.forEach(p -> {
                 p.setHasExecutedCards(false);
                 p.setDoneProgramming(false);
+
             });
         }
         conn.gameSession.clearAll();

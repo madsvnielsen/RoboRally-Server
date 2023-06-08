@@ -62,7 +62,7 @@ public class GameSessionManager {
     }
 
     public static String getGameState(String gameId){
-        return SaveLoadController.serializeAndGetString(getGame(gameId).getController());
+        return SaveLoadController.serializeGameController(getGame(gameId).getController());
     }
 
     public static void startGameSession(String gameId, String map){
@@ -95,7 +95,7 @@ public class GameSessionManager {
             playerConnections.get(i).setPlayerToken(board.getPlayer(i));
         }
         targetSession.setController(new GameController(board));
-        targetSession.getController().startProgrammingPhase();
+        targetSession.getController().startProgrammingPhaseFromOnline();
     }
 
 

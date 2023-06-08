@@ -237,6 +237,30 @@ public class GameController {
      * Sets the current phase to programming phase and sets current player and step index to 0
      * Removes all the cards in the command card fields and replaces them with new, random command cards
      */
+
+    public void startProgrammingPhaseFromOnline() {
+        board.setPhase(Phase.PROGRAMMING);
+        board.setCurrentPlayer(board.getPlayer(0));
+        board.setStep(0);
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getProgramField(j);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    CommandCardField field = player.getCardField(j);
+                    //field.setCard(generateRandomCommandCard());
+                    /* Get new cards from server...*/
+                    field.setVisible(true);
+                }
+            }
+        }
+    }
+
+
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));

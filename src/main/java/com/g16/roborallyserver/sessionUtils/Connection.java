@@ -1,6 +1,7 @@
 package com.g16.roborallyserver.sessionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -18,6 +19,7 @@ public class Connection {
     private Player playerRobot;
 
     private String[] program;
+    private String[] savedProgram;
     //
     public String[] getCardHand() {
         return cardHand;
@@ -25,6 +27,10 @@ public class Connection {
 
     public void setCardHand(String[] cardHand) {
         this.cardHand = cardHand;
+        for(int i = 0; i < cardHand.length; i++){
+            playerRobot.getCardField(i).setCard(CommandCardUtil.convertCommand(cardHand[i]));
+        }
+
     }
 
     private String[] cardHand;
@@ -85,6 +91,13 @@ public class Connection {
 
     public void setProgram(String[] program) {
         this.program = program;
+
+    }
+    public void setSavedProgram(String[] savedProgram){
+        this.savedProgram = savedProgram;
+        for(int i = 0; i < savedProgram.length; i++){
+            playerRobot.getProgramField(i).setCard(CommandCardUtil.convertCommand(savedProgram[i]));
+        }
     }
 
 }
