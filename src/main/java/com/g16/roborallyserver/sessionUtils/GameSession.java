@@ -12,7 +12,7 @@ public class GameSession {
 
     public String command;
 
-    public ArrayList<Interactive> Interactives;
+    public ArrayList<Interactive> Interactives = new ArrayList<>();
 
 
     private boolean isStarted = false;
@@ -53,4 +53,9 @@ public class GameSession {
     public ArrayList<Interactive> getInteractives() {
         return Interactives;
     }
+
+    public void clearAll(){
+        Interactives.clear();
+    }
+
 }

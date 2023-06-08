@@ -2,6 +2,7 @@ package com.g16.roborallyserver.API_EndPoints;
 
 import com.g16.roborallyserver.sessionUtils.*;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Command;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -176,7 +177,7 @@ public class Games {
     }
 
     @PostMapping(value = "/interactive/{gameId}")
-    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String comm) {
+    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String comm, @RequestParam String step) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -229,8 +230,13 @@ public class Games {
             }
         }
 
+        Interactive inter2 = new Interactive(uuid, step, false, "test");
 
-        return new ResponseEntity<>(inter, HttpStatus.OK);
+        if (inter == null){
+            return new ResponseEntity<Interactive>(inter2, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Interactive>(inter, HttpStatus.OK);
+        }
     }
 
     @GetMapping (value= "/getCards/{gameId}")
@@ -277,6 +283,8 @@ public class Games {
                 p.setDoneProgramming(false);
             });
         }
+        conn.gameSession.clearAll();
+
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 }

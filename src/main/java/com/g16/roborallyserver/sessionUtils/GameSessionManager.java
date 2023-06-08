@@ -109,5 +109,6 @@ public class GameSessionManager {
         for (Connection connection : connections){
             connection.setDoneProgramming(false);
         }
+
     }
 }
