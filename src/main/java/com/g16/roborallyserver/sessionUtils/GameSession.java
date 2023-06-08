@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
-public class GameSession {
+import java.util.ArrayList;
 
-    public String getGameID() {
-        return gameID;
-    }
+public class GameSession {
 
     public String gameID;
 
     public String command;
+
+    public ArrayList<Interactive> Interactives;
 
 
     private boolean isStarted = false;
@@ -40,5 +40,17 @@ public class GameSession {
     @JsonIgnore
     public GameController getController(){
         return controller;
+    }
+    public String getGameID() {
+        return gameID;
+    }
+
+    @JsonIgnore
+    public void appendIteractive(Interactive interactive){
+        Interactives.add(interactive);
+    }
+
+    public ArrayList<Interactive> getInteractives() {
+        return Interactives;
     }
 }

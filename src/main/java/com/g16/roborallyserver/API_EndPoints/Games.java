@@ -1,9 +1,7 @@
 package com.g16.roborallyserver.API_EndPoints;
 
-import com.g16.roborallyserver.sessionUtils.Connection;
-import com.g16.roborallyserver.sessionUtils.ConnectionManager;
-import com.g16.roborallyserver.sessionUtils.GameSession;
-import com.g16.roborallyserver.sessionUtils.GameSessionManager;
+import com.g16.roborallyserver.sessionUtils.*;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -193,12 +192,19 @@ public class Games {
             //You are not authenticated in this game!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
-        conn.gameSession.command = comm;
+
+        String[] info = comm.split(":");
+        boolean done;
+        done = !info[2].equals("notDone");
+        Interactive inter = new Interactive(info[0], info[1], done, info[3]);
+
+        conn.gameSession.appendIteractive(inter);
+
         return new ResponseEntity<>("100", HttpStatus.OK);
     }
 
     @GetMapping(value = "/interactive/{gameId}")
-    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid) {
+    public ResponseEntity<?> getInteractive(@PathVariable String gameId, @RequestParam String uuid, @RequestParam String step) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -214,7 +220,17 @@ public class Games {
             //You are not authenticated in this game!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
-        return new ResponseEntity<>(conn.gameSession.command, HttpStatus.OK);
+
+        Interactive inter = null;
+
+        for (int i = 0; i < conn.gameSession.Interactives.size(); i++){
+            if (conn.gameSession.getInteractives().get(i).getStep().equals(step)){
+                inter = conn.gameSession.getInteractives().get(i);
+            }
+        }
+
+
+        return new ResponseEntity<>(inter, HttpStatus.OK);
     }
 
     @GetMapping (value= "/getCards/{gameId}")
