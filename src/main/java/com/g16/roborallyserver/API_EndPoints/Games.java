@@ -259,6 +259,7 @@ public class Games {
             players.forEach(p -> {
                 p.setHasExecutedCards(false);
                 p.setDoneProgramming(false);
+
             });
         }
         return new ResponseEntity<>(cards, HttpStatus.OK);

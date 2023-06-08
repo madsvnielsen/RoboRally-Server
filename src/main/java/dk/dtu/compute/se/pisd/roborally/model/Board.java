@@ -152,6 +152,9 @@ public class Board extends Subject {
         for (int i = 0; i < savedBoard.getPlayersNumber(); i++) {
             Player player = new Player(this, PLAYER_COLORS.get(i), "Player " + (i + 1), i+1, programmingDeckInit.init());
             player.setHeading(savedBoard.getPlayer(i).getHeading());
+            player.setProgram(savedBoard.getPlayer(i).getProgram());
+            player.setCards(savedBoard.getPlayer(i).getCards());
+
             this.addPlayer(player);
             if(Objects.equals(savedBoard.getPlayers().get(i).getName(), savedBoard.getCurrentPlayer().getName())){
                 currentp = i;
