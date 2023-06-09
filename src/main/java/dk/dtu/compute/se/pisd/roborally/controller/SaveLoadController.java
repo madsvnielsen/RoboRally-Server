@@ -94,4 +94,8 @@ public class SaveLoadController {
     public static GameController deserializeString(String str){
         return gson.fromJson(str, GameController.class);
     }
+
+    public static Space[][] deserializeSpacesFromString(String str){
+        return gson.fromJson(str, Space[][].class);
+    }
 }

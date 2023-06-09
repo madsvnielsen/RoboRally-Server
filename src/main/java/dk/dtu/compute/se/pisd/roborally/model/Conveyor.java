@@ -24,7 +24,7 @@ public class Conveyor extends MovementField {
 
 
     @Expose
-    private final boolean isDouble;
+    public final boolean isDouble;
 
     public Conveyor(Color COLOR, Heading heading) {
         super(heading);

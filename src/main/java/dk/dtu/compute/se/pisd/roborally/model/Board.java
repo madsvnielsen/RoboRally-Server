@@ -468,5 +468,14 @@ public class Board extends Subject {
         return players;
     }
 
+    public void setRebootField(RebootField rebootField){
+        rebootField = rebootField;
+
+    }
+
+    public Space[][] getSpaces(){
+        return this.spaces;
+    }
+
 
 }

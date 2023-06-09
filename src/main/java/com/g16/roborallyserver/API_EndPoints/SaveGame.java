@@ -128,7 +128,7 @@ public class SaveGame {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> getMapList() {
+    public ResponseEntity<?> getStorageList() {
         File mapDirectory = new File(savesLocation);
         File[] maps =  mapDirectory.listFiles();
         List<String> mapNames = new ArrayList<String>();
