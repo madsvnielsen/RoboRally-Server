@@ -1,6 +1,26 @@
 package com.g16.roborallyserver.sessionUtils;
 
+/** Interactive
+ *  Represents a chosen command by a player who used an "interactive" card
+ */
+
+
 public class Interactive {
+
+    private int userID;
+
+    private String  step;
+
+    private boolean chosen;
+
+    private String command;
+
+    public Interactive(int userID, String step, boolean chosen, String command){
+        this.userID = userID;
+        this.step = step;
+        this.chosen = chosen;
+        this.command = command;
+    }
 
     public int getUserID() {
         return userID;
@@ -31,21 +51,6 @@ public class Interactive {
     }
 
     public void setCommand(String command) {
-        this.command = command;
-    }
-
-    private int userID;
-
-    private String  step;
-
-    private boolean chosen;
-
-    private String command;
-
-    public Interactive(int userID, String step, boolean chosen, String command){
-        this.userID = userID;
-        this.step = step;
-        this.chosen = chosen;
         this.command = command;
     }
 

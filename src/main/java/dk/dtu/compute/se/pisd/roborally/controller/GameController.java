@@ -218,12 +218,8 @@ public class GameController {
                 }
                 if (prvWall != null){
                     if (backupflag) {
-                        if (prvWall.getDir().next().next() == heading) {
-                            return false;
-                        }
-                    } else if (prvWall.getDir() == heading){
-                        return false;
-                    }
+                        return prvWall.getDir().next().next() != heading;
+                    } else return prvWall.getDir() != heading;
                 }
                 return true;
             } else {

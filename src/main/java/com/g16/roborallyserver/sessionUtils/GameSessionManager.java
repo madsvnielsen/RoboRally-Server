@@ -100,7 +100,7 @@ public class GameSessionManager {
 
 
     public static void resetIsProgrammingForAllPlayers(GameController sourceController){
-        Optional<GameSession> targetSesh = gameSessions.stream().filter(gs -> Objects.equals(gs.getController(), sourceController)).findFirst();;
+        Optional<GameSession> targetSesh = gameSessions.stream().filter(gs -> Objects.equals(gs.getController(), sourceController)).findFirst();
         if(targetSesh.isEmpty()){
             return;
         }

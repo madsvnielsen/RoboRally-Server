@@ -3,8 +3,20 @@ package com.g16.roborallyserver.sessionUtils;
 import dk.dtu.compute.se.pisd.roborally.model.Command;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 
+
+/**
+ * Command Card utilities
+ * Helper functions for processing input of command cards represented by strings.
+ */
+
 public class CommandCardUtil {
 
+
+    /** Convert command
+     * Creates a CommandCard based of the name of the desired command
+     * @param sCom display name of command
+     * @return CommandCard
+     */
     public static CommandCard convertCommand(String sCom){
 
         return switch (sCom) {

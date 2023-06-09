@@ -14,12 +14,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/** Lobby
+ * Controller for managing all endpoints related to getting information about a lobby.
+ * A lobby represents an instance of a game.
+ */
+
 @RequestMapping(value = "/lobby", produces="application/json")
 @RestController
 public class Lobby {
 
-
-
+    /** Get lobbies
+     * json object of a dictionary of lobbies, where the key is the lobby name
+     * and the value is the player count
+     * @return json object containing a dictionary of lobbies
+     */
     @GetMapping(value = "")
     public ResponseEntity<?> lobbies() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -38,10 +46,4 @@ public class Lobby {
     }
 
 
-
-    @GetMapping(value = "/{gameID}")
-    public GameSession lobby(String gameID){
-        Optional<GameSession> queryResponse = GameSessionManager.getGameSessions().stream().filter(gs -> gs.gameID.equals(gameID)).findFirst();
-        return queryResponse.orElse(null);
-    }
 }

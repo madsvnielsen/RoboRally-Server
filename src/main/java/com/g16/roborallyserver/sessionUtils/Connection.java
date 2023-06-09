@@ -1,16 +1,25 @@
 package com.g16.roborallyserver.sessionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 
+/**Connection
+ *  A connection object represents a players connection with a game session
+ */
+
 public class Connection {
 
+
+    /**
+     * Unique user id to identify users
+     */
     public String userID;
 
 
+    /**
+     * Game session with which the connection is associated
+     */
     public GameSession gameSession;
 
 
@@ -18,12 +27,14 @@ public class Connection {
 
     private Player playerRobot;
 
+    /**
+     * program, saveProgram and cardHand are used to save the state of the players cards
+     */
     private String[] program;
     private String[] savedProgram;
-    //
-    public String[] getCardHand() {
-        return cardHand;
-    }
+
+    private String[] cardHand;
+
 
     public void setCardHand(String[] cardHand) {
         this.cardHand = cardHand;
@@ -33,7 +44,7 @@ public class Connection {
 
     }
 
-    private String[] cardHand;
+
     @JsonIgnore
     public boolean isDoneProgramming() {
         return isProgramming;
@@ -44,7 +55,6 @@ public class Connection {
     }
 
     private boolean isProgramming = false;
-
 
 
     private boolean hasExecutedCards = false;

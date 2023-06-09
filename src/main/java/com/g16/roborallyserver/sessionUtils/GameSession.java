@@ -1,23 +1,29 @@
 package com.g16.roborallyserver.sessionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-
 import java.util.ArrayList;
 
+/**
+ * GameSession
+ * A gameSession object represents a game session
+ */
 public class GameSession {
 
     public String gameID;
 
-    public String command;
 
+    /**
+     * List to store the choices made by players who used "Interactive" cards
+     */
     public ArrayList<Interactive> Interactives = new ArrayList<>();
-
 
     private boolean isStarted = false;
 
 
+    /**
+     * Associated gameController
+     */
     private GameController controller = null;
 
     public GameSession(String gameID){
@@ -46,7 +52,7 @@ public class GameSession {
     }
 
     @JsonIgnore
-    public void appendIteractive(Interactive interactive){
+    public void appendInteractives(Interactive interactive){
         Interactives.add(interactive);
     }
 

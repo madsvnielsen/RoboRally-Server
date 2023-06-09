@@ -73,7 +73,7 @@ public class Board extends Subject {
 
     private int counter=0;
 
-    private ProgrammingDeckInit programmingDeckInit = new ProgrammingDeckInit();
+    private final ProgrammingDeckInit programmingDeckInit = new ProgrammingDeckInit();
 
 
     /**
