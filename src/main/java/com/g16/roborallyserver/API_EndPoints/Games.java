@@ -168,8 +168,13 @@ public class Games {
         }
 
         conn.setDoneProgramming(true);
+        int i = 0;
+        int playerNum = conn.getPlayerRobot().getPlayerNum();
         for (String str: program) {
             System.out.println(str);
+           if (str.equals("Turn left or right")){
+               conn.gameSession.appendIteractive(new Interactive(playerNum, String.valueOf(i), false, "test"));
+           }
         }
         conn.setProgram(program);
 
@@ -177,7 +182,7 @@ public class Games {
     }
 
     @PostMapping(value = "/interactive/{gameId}")
-    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String comm, @RequestParam String step) {
+    public ResponseEntity<?> submitInteractive(@PathVariable String gameId, @RequestParam String uuid,  @RequestBody String comm) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -197,7 +202,7 @@ public class Games {
         String[] info = comm.split(":");
         boolean done;
         done = !info[2].equals("notDone");
-        Interactive inter = new Interactive(info[0], info[1], done, info[3]);
+        Interactive inter = new Interactive(Integer.parseInt(info[0]), info[1], done, info[3]);
 
         conn.gameSession.appendIteractive(inter);
 
@@ -205,7 +210,7 @@ public class Games {
     }
 
     @GetMapping(value = "/interactive/{gameId}")
-    public ResponseEntity<?> getInteractive(@PathVariable String gameId, @RequestParam String uuid, @RequestParam String step) {
+    public ResponseEntity<?> getInteractive(@PathVariable String gameId, @RequestParam String uuid) {
         if(!GameSessionManager.gameExists(gameId)){
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
@@ -222,21 +227,7 @@ public class Games {
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
 
-        Interactive inter = null;
-
-        for (int i = 0; i < conn.gameSession.Interactives.size(); i++){
-            if (conn.gameSession.getInteractives().get(i).getStep().equals(step)){
-                inter = conn.gameSession.getInteractives().get(i);
-            }
-        }
-
-        Interactive inter2 = new Interactive(uuid, step, false, "test");
-
-        if (inter == null){
-            return new ResponseEntity<Interactive>(inter2, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Interactive>(inter, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(conn.gameSession.getInteractives(), HttpStatus.OK);
     }
 
     @GetMapping (value= "/getCards/{gameId}")
@@ -283,8 +274,9 @@ public class Games {
                 p.setDoneProgramming(false);
 
             });
+            conn.gameSession.clearAll();
         }
-        conn.gameSession.clearAll();
+
 
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }

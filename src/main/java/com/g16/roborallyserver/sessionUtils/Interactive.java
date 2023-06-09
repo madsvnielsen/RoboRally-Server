@@ -2,11 +2,11 @@ package com.g16.roborallyserver.sessionUtils;
 
 public class Interactive {
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
@@ -34,15 +34,15 @@ public class Interactive {
         this.command = command;
     }
 
-    private String userID;
+    private int userID;
 
-    private String step;
+    private String  step;
 
     private boolean chosen;
 
     private String command;
 
-    public Interactive(String userID, String step, boolean chosen, String command){
+    public Interactive(int userID, String step, boolean chosen, String command){
         this.userID = userID;
         this.step = step;
         this.chosen = chosen;
