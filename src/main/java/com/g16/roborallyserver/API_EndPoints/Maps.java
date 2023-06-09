@@ -1,7 +1,5 @@
 package com.g16.roborallyserver.API_EndPoints;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +31,7 @@ public class Maps {
     public ResponseEntity<?> getMapList() {
         File mapDirectory = new File(mapLocation);
         File[] maps =  mapDirectory.listFiles();
-        List<String> mapNames = new ArrayList<String>();
+        List<String> mapNames = new ArrayList<>();
         if(maps ==  null){
             return new ResponseEntity<>("No maps", HttpStatus.OK);
         }

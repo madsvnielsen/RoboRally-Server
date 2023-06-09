@@ -25,7 +25,7 @@ import com.google.gson.annotations.Expose;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+
 
 /**
  * ...
@@ -41,14 +41,6 @@ public class CommandCard extends Subject {
     public CommandCard(@NotNull Command command) {
         this.command = command;
     }
-
-    public String getName() {
-        return command.displayName;
-    }
-
-    public List<Command> programmingdeck;
-
-
 
 
 }

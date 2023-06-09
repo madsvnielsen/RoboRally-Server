@@ -71,15 +71,5 @@ public enum Command {
         return !options.isEmpty();
     }
 
-    /**
-     * Returns command options
-     * <p>
-     * Returns the options the user can choose between upon the execution of the command
-     * @return List of options (commands)
-     */
-    public List<Command> getOptions() {
-        return options;
-    }
-
 
 }

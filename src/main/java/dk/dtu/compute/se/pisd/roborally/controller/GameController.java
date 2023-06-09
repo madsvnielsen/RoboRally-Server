@@ -28,8 +28,6 @@ import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -273,11 +271,7 @@ public class GameController {
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    /*
-                    field.setCard(generateRandomCommandCard());
-                    field.setVisible(true);
-                     */
-                    field.setCard(drawCard(board.getCurrentPlayer().getProgrammingDeck(),player));
+                    field.setCard(drawCard(player));
                     field.setVisible(true);
 
                 }
@@ -285,7 +279,7 @@ public class GameController {
         }
     }
 
-    public CommandCard drawCard(List<CommandCard> deck, Player currentPLayer) {
+    public CommandCard drawCard(Player currentPLayer) {
         if (currentPLayer.getProgrammingDeck().isEmpty()) {
             shuffleDeck(currentPLayer.getProgrammingDeck(), currentPLayer.getDiscardPile());
         }
@@ -313,14 +307,7 @@ public class GameController {
     public void removeOneCardWithCommand(List<CommandCard> discardPile, Command command) {
 
 
-        Iterator<CommandCard> discardIterator = discardPile.iterator();
-        while (discardIterator.hasNext()) {
-            CommandCard card = discardIterator.next();
-            if (card.command == command) {
-                discardIterator.remove();
-
-            }
-        }
+        discardPile.removeIf(card -> card.command == command);
     }
 
     /**
@@ -330,13 +317,7 @@ public class GameController {
      * the card in register 0. Afterwards changes the game phase to acivation phase and sets the current
      * player and step to index 0
      */
-    public void finishProgrammingPhase() {
-        makeProgramFieldsInvisible();
-        makeProgramFieldsVisible(0);
-        board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
-        board.setStep(0);
-    }
+
 
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
@@ -360,25 +341,9 @@ public class GameController {
         }
     }
 
-    /**
-     * Disables step mode and executes the programs
-     * <p>
-     * Disables step mode and runs the programs programmed by the player.
-     */
-    public void executePrograms() {
-        board.setStepMode(false);
-        continuePrograms();
-    }
 
-    /**
-     * Executes the next step
-     * <p>
-     * Execute the card in the current step for the current player and doesn't continue execution afterwards.
-     */
-    public void executeStep() {
-        board.setStepMode(true);
-        continuePrograms();
-    }
+
+
 
     /**
      * Executes the players programs continuously
@@ -454,7 +419,7 @@ public class GameController {
      * @param  command The command that should be executed on the player.
      */
     void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if ( player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -754,63 +719,6 @@ public class GameController {
             executeCommand(player, command);
         }
     }
-
-
-    /**
-     * Moves a card from one card field to another
-     * <p>
-     * This method moves a card from a card field to an empty card field
-     * If the source card field is empty or the target card field occupied,
-     * the method will return false, indicating the move operation was invalid.
-     * The method will return true, if the card is moved successfully.
-     * @param  source  the source command card field
-     * @param  target  the target command card field
-     * @return boolean, if the move operation was successful.
-     */
-    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
-        CommandCard sourceCard = source.getCard();
-        CommandCard targetCard = target.getCard();
-        if (sourceCard != null && targetCard == null) {
-            target.setCard(sourceCard);
-            source.setCard(null);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
-     * Executes a command that is selected by the player and resumes execution afterwards.
-     * <p>
-     * This method always executes the parsed command given by the command parameter.
-     * Afterwards the method continues execution of the rest of the registers by
-     * setting the phase to ACTIVATION_PHASE. The game continues execution with/without
-     * step mode as when the card interaction card was reached.
-     * @param  command  the player-chosen command
-     */
-    public void executeCommandOptionAndContinue(Command command){
-        executeCommand(board.getCurrentPlayer(),command);
-        board.setPhase(Phase.ACTIVATION);
-        int step = board.getStep();
-        int nextPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer()) + 1;
-        if (nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-        } else {
-            step++;
-            if (step < Player.NO_REGISTERS) {
-                makeProgramFieldsVisible(step);
-                board.setStep(step);
-                board.setCurrentPlayer(board.getPlayer(0));
-            } else {
-                startProgrammingPhase();
-                return;
-            }
-        }
-        continuePrograms();
-    }
-
-
 
 
 

@@ -10,13 +10,13 @@ import java.util.ArrayList;
  */
 public class GameSession {
 
-    public String gameID;
+    public final String gameID;
 
 
     /**
      * List to store the choices made by players who used "Interactive" cards
      */
-    public ArrayList<Interactive> Interactives = new ArrayList<>();
+    public final ArrayList<Interactive> Interactives = new ArrayList<>();
 
     private boolean isStarted = false;
 

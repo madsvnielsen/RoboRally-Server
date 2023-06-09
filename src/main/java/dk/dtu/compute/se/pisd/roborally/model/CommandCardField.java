@@ -56,10 +56,6 @@ public class CommandCardField extends Subject {
         }
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
     public void setVisible(boolean visible) {
         if (visible != this.visible) {
             this.visible = visible;

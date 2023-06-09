@@ -14,13 +14,13 @@ public class Connection {
     /**
      * Unique user id to identify users
      */
-    public String userID;
+    public final String userID;
 
 
     /**
      * Game session with which the connection is associated
      */
-    public GameSession gameSession;
+    public final GameSession gameSession;
 
 
     private boolean isHost = false;

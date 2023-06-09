@@ -41,7 +41,7 @@ public class Games {
 
         ConnectionManager.addConnection(conn);
 
-        return new ResponseEntity<Connection>(conn, HttpStatus.OK);
+        return new ResponseEntity<>(conn, HttpStatus.OK);
     }
 
 
@@ -94,7 +94,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticatedAsHost(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticatedAsHost(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -124,7 +124,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -147,7 +147,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -185,7 +185,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -224,7 +224,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -258,7 +258,7 @@ public class Games {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameId, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameId, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -284,7 +284,7 @@ public class Games {
         if (!GameSessionManager.gameExists(gameId)) {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
-        if (!GameSessionManager.isAuthenticated(gameId, uuid)) {
+        if (GameSessionManager.isNotAuthenticated(gameId, uuid)) {
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }

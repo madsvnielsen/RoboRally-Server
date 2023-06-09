@@ -72,8 +72,8 @@ public class SaveGame {
     public ResponseEntity<String> loadGame(@PathVariable String saveName,@RequestParam String gameID, @RequestParam String uuid ) {
 
         File savesDirectory = new File(savesLocation);
-        List<File>  saveFiles =  Arrays.stream(savesDirectory.listFiles()).toList();
-        if(!saveFiles.stream().anyMatch(f -> f.getName().equals(saveName))){
+        List<File>  saveFiles =  Arrays.stream(Objects.requireNonNull(savesDirectory.listFiles())).toList();
+        if(saveFiles.stream().noneMatch(f -> f.getName().equals(saveName))){
             //Save game doesn't exist!!!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
@@ -94,7 +94,7 @@ public class SaveGame {
                     return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
                 }
 
-                if(!GameSessionManager.isAuthenticatedAsHost(gameID, uuid)){
+                if(GameSessionManager.isNotAuthenticatedAsHost(gameID, uuid)){
                     //You are not authenticated!
                     return new ResponseEntity<>("200", HttpStatus.OK);
                 }
@@ -140,7 +140,7 @@ public class SaveGame {
             return new ResponseEntity<>("Game doesn't exist!", HttpStatus.OK);
         }
 
-        if(!GameSessionManager.isAuthenticated(gameID, uuid)){
+        if(GameSessionManager.isNotAuthenticated(gameID, uuid)){
             //You are not authenticated!
             return new ResponseEntity<>("200", HttpStatus.OK);
         }
