@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.g16.roborallyserver"},{"l":"com.g16.roborallyserver.API_EndPoints"},{"l":"com.g16.roborallyserver.sessionUtils"},{"l":"dk.dtu.compute.se.pisd.designpatterns.observer"},{"l":"dk.dtu.compute.se.pisd.roborally.controller"},{"l":"dk.dtu.compute.se.pisd.roborally.model"}];updateSearchResults();

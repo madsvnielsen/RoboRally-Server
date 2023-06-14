@@ -41,7 +41,7 @@ public class CommandCardField extends Subject {
 
     public CommandCardField(Player player) {
         this.player = player;
-        this. card = null;
+        this.card = null;
         this.visible = true;
     }
 
@@ -52,12 +52,8 @@ public class CommandCardField extends Subject {
     public void setCard(CommandCard card) {
         if (card != this.card) {
             this.card = card;
-            notifyChange();
+            //notifyChange();
         }
-    }
-
-    public boolean isVisible() {
-        return visible;
     }
 
     public void setVisible(boolean visible) {

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProgrammingDeck {
-    private List<CommandCard> deck;
+    private final List<CommandCard> deck;
 
     public ProgrammingDeck(List<CommandCard> deck) {
         this.deck = deck;

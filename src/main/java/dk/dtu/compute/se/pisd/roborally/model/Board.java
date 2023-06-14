@@ -54,7 +54,7 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     @Expose
-    private ArrayList<CheckpointField> checkpoints = new ArrayList<>();
+    private final ArrayList<CheckpointField> checkpoints = new ArrayList<>();
 
 
     @Expose
@@ -73,7 +73,9 @@ public class Board extends Subject {
 
     private int counter=0;
 
-    private ProgrammingDeckInit programmingDeckInit = new ProgrammingDeckInit();
+    private RebootField rebootField;
+
+    private final ProgrammingDeckInit programmingDeckInit = new ProgrammingDeckInit();
 
 
     /**
@@ -115,18 +117,6 @@ public class Board extends Subject {
 
 
     /**
-     * Get game id
-     * <p>
-     * Returns game ID
-     * @return Integer gameID
-     */
-    public Integer getGameId() {
-        return gameId;
-    }
-
-
-
-    /**
      * Creates a new board from previous save game
      * <p>
      * Creates a new board from a deserialized saved game board.
@@ -152,6 +142,9 @@ public class Board extends Subject {
         for (int i = 0; i < savedBoard.getPlayersNumber(); i++) {
             Player player = new Player(this, PLAYER_COLORS.get(i), "Player " + (i + 1), i+1, programmingDeckInit.init());
             player.setHeading(savedBoard.getPlayer(i).getHeading());
+            player.setProgram(savedBoard.getPlayer(i).getProgram());
+            player.setCards(savedBoard.getPlayer(i).getCards());
+
             this.addPlayer(player);
             if(Objects.equals(savedBoard.getPlayers().get(i).getName(), savedBoard.getCurrentPlayer().getName())){
                 currentp = i;
@@ -166,7 +159,7 @@ public class Board extends Subject {
                 for(FieldObject fo : s.getObjects()){
                     if(fo instanceof Conveyor conveyor){
                         spaces[s.x][s.y].addObjects(new Conveyor(Color.BLUE, conveyor.getDirection()));
-                    } else if (fo instanceof  StartField sf) {
+                    } else if (fo instanceof  StartField) {
                         spaces[s.x][s.y].addObjects(new StartField());
                     }  else if (fo instanceof  CheckpointField cp) {
                         CheckpointField cpf = new CheckpointField(cp.getCheckpointNumber());
@@ -205,21 +198,7 @@ public class Board extends Subject {
     }
 
 
-    /**
-     * Set game id
-     * <p>
-     * Sets the current game ID
-     * @param gameId the id to be assigned this game
-     */
-    public void setGameId(int gameId) {
-        if (this.gameId == null) {
-            this.gameId = gameId;
-        } else {
-            if (!this.gameId.equals(gameId)) {
-                throw new IllegalStateException("A game with a set id may not be assigned a new id!");
-            }
-        }
-    }
+
 
     /**
      * Get space
@@ -400,40 +379,6 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * Returns the neighbour of the given space of the board in the given heading.
-     * The neighbour is returned only, if it can be reached from the given space
-     * (no walls or obstacles in either of the involved spaces); otherwise,
-     * null will be returned.
-     *
-     * @param space the space for which the neighbour should be computed
-     * @param heading the heading of the neighbour
-     * @return the space in the given direction; null if there is no (reachable) neighbour
-     */
-    public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
-        int x = space.x;
-        int y = space.y;
-        switch (heading) {
-            case SOUTH -> y = (y + 1) % height;
-            case WEST -> x = (x + width - 1) % width;
-            case NORTH -> y = (y + height - 1) % height;
-            case EAST -> x = (x + 1) % width;
-        }
-
-        return getSpace(x, y);
-    }
-
-    public String getStatusMessage() {
-        // this is actually a view aspect, but for making assignment V1 easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
-
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep();
-    }
-
 
     /**
      * Adds a checkpoint to the game board.
@@ -463,6 +408,14 @@ public class Board extends Subject {
      */
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void setRebootField(RebootField rebootField){
+        this.rebootField = rebootField;
+    }
+
+    public Space[][] getSpaces(){
+        return this.spaces;
     }
 
 
